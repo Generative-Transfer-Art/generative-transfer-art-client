@@ -1,0 +1,35 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  line-height: 1.6;
+  font-size: 18px;
+  background-color:rgba(255, 255, 255, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+ #home-wrapper{
+   text-align: center;
+   margin-top: 40px;
+ }
+
+ #project-details{
+   text-align: left;
+   width: 250px;
+   margin-left: 40%;
+   margin-top: 20px;
+   background-color: rgb(255, 0, 0);
+   padding: 10px;
+   border-radius: 4px;
+   box-shadow: inset;
+   color: white;
+   margin-bottom: 50px;
+ }
+
+ .btn:hover{
+  cursor: pointer;
+ }
