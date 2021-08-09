@@ -129,6 +129,7 @@ function MintController({mintFee, mintCallBack}) {
     setTransactionHash(t.hash)
     t.wait().then((receipt) => {
         waitForEvent()
+        mintCallBack()
       })
       .catch(err => {
         console.log(err)
@@ -178,7 +179,7 @@ function MintController({mintFee, mintCallBack}) {
       }
       {
         transactionHash == "" ? "" :
-        <a href={process.env.NEXT_PUBLIC_ETHERSCAN_URL + "/tx/" +  transactionHash}> See transaction on Etherscan</a>
+        <a target="_blank" href={process.env.NEXT_PUBLIC_ETHERSCAN_URL + "/tx/" +  transactionHash}> See transaction on Etherscan</a>
 
       }
 
@@ -186,7 +187,7 @@ function MintController({mintFee, mintCallBack}) {
         id == null ? "" :
         <div> 
           Successfully minted #{id} - 
-          <a href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_CONTRACT + "/" +  id}> View On Open Sea </a>
+          <a target="_blank" href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_CONTRACT + "/" +  id}> View On Open Sea </a>
         </div>
 
       }
