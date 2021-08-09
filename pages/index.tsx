@@ -126,7 +126,7 @@ function MintController({mintFee, mintCallBack}) {
     setTransactionHash("")
     setId(null)
     const t = await artTransferContractWeb3.mint(account, {value: ethers.utils.parseUnits(mintFee, 18)})
-    setTransactionHash(t.transactionHash)
+    setTransactionHash(t.hash)
     t.wait().then((receipt) => {
         waitForEvent()
       })
@@ -178,7 +178,7 @@ function MintController({mintFee, mintCallBack}) {
       }
       {
         transactionHash == "" ? "" :
-        <a href={"https://etherscan.io/tx/" +  transactionHash}> See transaction on Etherscan</a>
+        <a href={process.env.NEXT_PUBLIC_ETHERSCAN_URL + "/tx/" +  transactionHash}> See transaction on Etherscan</a>
 
       }
 
@@ -186,7 +186,7 @@ function MintController({mintFee, mintCallBack}) {
         id == null ? "" :
         <div> 
           Successfully minted #{id} - 
-          <a href={"https://opensea.io/assets/" + process.env.NEXT_PUBLIC_CONTRACT + "/" +  id}> View On Open Sea </a>
+          <a href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_CONTRACT + "/" +  id}> View On Open Sea </a>
         </div>
 
       }
