@@ -184,10 +184,17 @@ function MintController({mintFee, mintCallBack}) {
       }
 
       {
-        id == null ? "" :
+        id == null ? 
+        <div>
+        {
+          transactionHash == "" ? "" :
+          "Waiting for transaction to land on chain..."
+        }
+        </div>
+        :
         <div> 
           Successfully minted #{id} - 
-          <a target="_blank" href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_CONTRACT + "/" +  id}> View On Open Sea </a>
+          <a target="_blank" href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_CONTRACT + "/" +  id}> View On OpenSea </a>
         </div>
 
       }
