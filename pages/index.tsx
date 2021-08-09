@@ -15,6 +15,11 @@ const transferArtContract = new ethers.Contract(
       _provider
     );
 
+declare global {
+    interface Window {
+        ethereum:any;
+    }
+}
 
 export default function Home(){
   const [projectState, setProjectState] = useState(null)
