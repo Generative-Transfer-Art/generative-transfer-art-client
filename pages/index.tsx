@@ -59,7 +59,9 @@ export default function Home(){
       </Head>
      <img src="generative_1_title.svg" />
    { projectState == null ?
-   "hey" : 
+   <div id="project-details"> 
+   Loading...
+   </div>: 
    <div>
     <div id="project-details">
       <p>
@@ -124,12 +126,9 @@ function MintController({mintFee, mintCallBack}) {
     setTransactionHash("")
     setId(null)
     const t = await artTransferContractWeb3.mint(account, {value: ethers.utils.parseUnits(mintFee, 18)})
+    setTransactionHash(t.transactionHash)
     t.wait().then((receipt) => {
-        mintCallBack()
-        setTransactionHash(receipt.transactionHash)
         waitForEvent()
-        // see on etherscan 
-        // see your new nft 
       })
       .catch(err => {
         console.log(err)
