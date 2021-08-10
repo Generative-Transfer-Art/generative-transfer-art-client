@@ -33,3 +33,16 @@ body {
  .btn:hover{
   cursor: pointer;
  }
+
+ #v1-media{
+   height: 200px;
+   width: 200px;
+   padding: 10px;
+   border: 4px solid black;
+   border-radius: 4px;
+ }
+
+ #v1-detail-wrapper{
+   margin: auto;
+   margin-left: 40%;
+ }
