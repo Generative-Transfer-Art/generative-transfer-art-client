@@ -81,7 +81,7 @@ function DetailLoaded({nftInfo}) {
 
     return(
         <div>
-            <h2> #{nftInfo.id.toString()}  {nftInfo.copyOf == 0 ? "" : "(copy of #" + nftInfo.id.toString() + ")"} </h2>
+            <h2> #{nftInfo.id.toString()}  {nftInfo.copyOf == 0 ? "" : "(copy of #" + nftInfo.copyOf.toString() + ")"} </h2>
                 <div id="v1-media">
                     <Media media={nftInfo.mediaUrl} mediaMimeType={nftInfo.mediaMimeType} autoPlay={false}/>   
                 </div> 
