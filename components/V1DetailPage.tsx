@@ -16,7 +16,9 @@ export default function V1DetailPage({id}){
     const [nftInfo, setNftInfo] = useState(null)
 
     const getInfo = async () => {
-        console.log(id)
+        if (id == undefined) {
+            return 
+        }
         var info = await getNFTInfo({Contract: transferArtContract, tokenId: ethers.BigNumber.from(id + "")})
         const copyOf = await transferArtContract.copyOf(id + "")
         const owner = await transferArtContract.ownerOf(id + "")
@@ -28,7 +30,7 @@ export default function V1DetailPage({id}){
 
     useEffect(()=> {
         getInfo()
-    }, [])
+    }, [id])
 
     return(
         <div id="v1-detail-wrapper"> 
