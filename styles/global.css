@@ -46,3 +46,13 @@ body {
    margin: auto;
    margin-left: 40%;
  }
+
+ #show-color-rect{
+   background-color: rgba(var(--r), var(--g), var(--b), var(--a));
+   width: 100px;
+   height: 100px;
+ }
+
+ #address-input{
+   width: 300px;
+ }

@@ -85,6 +85,74 @@ function DetailLoaded({nftInfo}) {
                 <div id="v1-media">
                     <Media media={nftInfo.mediaUrl} mediaMimeType={nftInfo.mediaMimeType} autoPlay={false}/>   
                 </div> 
+                <AddressInput />
+        </div>
+    )
+}
+
+function AddressInput(){
+    const [address, setAddress] = useState("")
+    const [isError, setError] = React.useState(false)
+    const [cssProperties, setCssProperties] = useState({})
+
+    const handleChange = (event) => {
+        const a = event.target.value
+        setAddress(a)
+
+        if(!ethers.utils.isAddress(a)){
+            setError(true)
+            return
+        }
+        updateCSS(a)
+        
+    }
+
+    const handlePaste = (event) => {
+        const a = event.clipboardData.getData('Text')
+        setAddress(a)
+
+        if(!ethers.utils.isAddress(a)){
+            setError(true)
+            return
+        }
+        updateCSS(a)
+    }
+
+    const updateCSS = async (address) => {
+        const [r,g,b,a] = await transferArtContract.addressRgba(address);
+        console.log(r)
+        var properties = {}
+        properties['--r'] = parseInt(r)
+        properties['--g'] = parseInt(g)
+        properties['--b'] = parseInt(b)
+        properties['--a'] = parseFloat(a)
+        setCssProperties(properties)
+
+    }
+
+      const clearErrors = () => {
+        setError(false)
+      }
+
+      return(
+          <div >
+              <br/>
+        <input id="address-input" onFocus={clearErrors} placeholder='Enter address to check color' value={address} onChange={handleChange} onPaste={handlePaste}/>
+        <div>
+        {
+            Object.keys(cssProperties).length == 0 ? "" :
+            <ShowColorRect cssProperties={cssProperties} />
+        }
+        </div>
+        </div>
+      )
+}
+
+function ShowColorRect({cssProperties}){
+    return (
+        <div>
+            <p> Address color: rgba({cssProperties['--r']},{cssProperties['--g']},{cssProperties['--b']},{Math.max(1,cssProperties['--a'])}) </p>
+            <div id="show-color-rect" style={cssProperties} > </div>
         </div>
     )
 }
