@@ -35,24 +35,29 @@ export default function V1DetailPage({id}){
     return(
         <div id="v1-detail-wrapper"> 
             {nftInfo == null ? "" :
-            <DetailLoaded nftInfo={nftInfo} />
+            <DetailLoaded nftInfo={nftInfo} refresh={getInfo} />
             }
         </div>
     )
 }
 
-function DetailLoaded({nftInfo}) {
+function DetailLoaded({nftInfo, refresh}) {
     const [artTransferContractWeb3, setArtTransferContractWeb3] = React.useState(null)
     const [providerAvailable, setProviderAvailable] = useState(null)
     const [account, setAccount] = useState(null)
+    const [isOwner, setIsOwner] = useState(false)
+    const [toAddress, setToAddress] = useState("")
 
     const getAccount = async () => {
         const accounts = await window.ethereum.send('eth_requestAccounts');
-        const account = accounts.result[0]
+        var account = ethers.utils.getAddress(accounts.result[0])
         setAccount(account)
+        setIsOwner(account == nftInfo.owner)
         window.ethereum.on('accountsChanged', function (accounts) {
           console.log("accounts changed")
-          setAccount(accounts[0])
+          account = ethers.utils.getAddress(accounts[0])
+          setAccount(account)
+          setIsOwner(account == nftInfo.owner)
         })
     }
 
@@ -85,38 +90,55 @@ function DetailLoaded({nftInfo}) {
                 <div id="v1-media">
                     <Media media={nftInfo.mediaUrl} mediaMimeType={nftInfo.mediaMimeType} autoPlay={false}/>   
                 </div> 
-                <AddressInput />
+                <br/>
+                <div> Owned by {nftInfo.owner} </div>
+                <br/>
+                {
+                    account == null ? 
+                    <div className="btn" onClick={getAccount}> <img src="../connect_wallet.svg" /></div> : 
+                    <div>
+                    <div> Connected with {account.slice(0, 5)}...</div>
+                    </div>
+                }
+                
+
+                <AddressInput address={toAddress} setAddress={setToAddress}/>
+                <br/>
+                {toAddress == "" || !ethers.utils.isAddress(toAddress) || !isOwner ? "" : <TransferButton from={account} to={toAddress} id={nftInfo.id} contract={artTransferContractWeb3} refresh={refresh}/>}
         </div>
     )
 }
 
-function AddressInput(){
-    const [address, setAddress] = useState("")
+function AddressInput({address, setAddress}){
     const [isError, setError] = React.useState(false)
     const [cssProperties, setCssProperties] = useState({})
 
     const handleChange = (event) => {
         const a = event.target.value
+        console.log("here")
         setAddress(a)
 
         if(!ethers.utils.isAddress(a)){
             setError(true)
             return
         }
+        
         updateCSS(a)
         
     }
 
-    const handlePaste = (event) => {
-        const a = event.clipboardData.getData('Text')
-        setAddress(a)
+    // const handlePaste = (event) => {
+    //     const a = event.clipboardData.getData('Text')
+    //     console.log(a)
+    //     setAddress(a)
 
-        if(!ethers.utils.isAddress(a)){
-            setError(true)
-            return
-        }
-        updateCSS(a)
-    }
+    //     if(!ethers.utils.isAddress(a)){
+    //         setError(true)
+    //         return
+    //     }
+        
+    //     updateCSS(a)
+    // }
 
     const updateCSS = async (address) => {
         const [r,g,b,a] = await transferArtContract.addressRgba(address);
@@ -137,7 +159,7 @@ function AddressInput(){
       return(
           <div >
               <br/>
-        <input id="address-input" onFocus={clearErrors} placeholder='Enter address to check color' value={address} onChange={handleChange} onPaste={handlePaste}/>
+        <input id="address-input" onFocus={clearErrors} placeholder='Enter address to check color' value={address} onChange={handleChange}/>
         <div>
         {
             Object.keys(cssProperties).length == 0 ? "" :
@@ -155,6 +177,61 @@ function ShowColorRect({cssProperties}){
             <div id="show-color-rect" style={cssProperties} > </div>
         </div>
     )
+}
+
+function TransferButton({from, to, id, contract, refresh}){
+    const [transactionHash, setTransactionHash] = useState("")
+    const [success, setSuccess] = useState(false)
+
+    const transfer = async () => {
+        setTransactionHash("")
+        const t = await contract.transferFrom(from, to, id)
+        setTransactionHash(t.hash)
+        t.wait().then((receipt) => {
+            waitForEvent()
+            refresh()
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+    
+      const waitForEvent = async () => {
+        const filter = transferArtContract.filters.Transfer(from, to)
+        console.log(filter)
+        transferArtContract.once(filter, (from, to, id) => {
+            setSuccess(true)
+            refresh()
+          
+        }
+        )
+      }
+
+      return(
+            <div>
+            { success ? "" : <button className="btn" onClick={transfer}> trasfer to {to.slice(0, 5)}...</button> }
+
+            {
+                transactionHash == "" ? "" :
+                <a target="_blank" href={process.env.NEXT_PUBLIC_ETHERSCAN_URL + "/tx/" +  transactionHash}> See transaction on Etherscan</a>
+            }
+
+            {
+                success ? 
+                <div> 
+                Successfully transferred
+                </div>
+                :
+                <div>
+                {
+                transactionHash == "" ? "" :
+                "Waiting for transaction to land on chain..."
+                }
+                </div>
+
+            }
+          </div>
+      )
 }
 
 // function Interaction
