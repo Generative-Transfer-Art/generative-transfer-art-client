@@ -95,7 +95,12 @@ function DetailLoaded({nftInfo, refresh}) {
                 <br/>
                 {
                     account == null ? 
-                    <div className="btn" onClick={getAccount}> <img src="../connect_wallet.svg" /></div> : 
+                    <div> 
+                        { providerAvailable ? 
+                            <div className="btn" onClick={getAccount}> <img src="../connect_wallet.svg" /> </div> : 
+                            "In order to connect, please use Chrome + Metamask"
+                            } 
+                    </div> : 
                     <div>
                     <div> Connected with {account.slice(0, 5)}...</div>
                     </div>
@@ -126,19 +131,6 @@ function AddressInput({address, setAddress}){
         updateCSS(a)
         
     }
-
-    // const handlePaste = (event) => {
-    //     const a = event.clipboardData.getData('Text')
-    //     console.log(a)
-    //     setAddress(a)
-
-    //     if(!ethers.utils.isAddress(a)){
-    //         setError(true)
-    //         return
-    //     }
-        
-    //     updateCSS(a)
-    // }
 
     const updateCSS = async (address) => {
         const [r,g,b,a] = await transferArtContract.addressRgba(address);
