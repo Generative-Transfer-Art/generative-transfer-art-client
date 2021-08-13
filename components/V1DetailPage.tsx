@@ -12,6 +12,12 @@ const transferArtContract = new ethers.Contract(
       _provider
     );
 
+declare global {
+    interface Window {
+        ethereum:any;
+    }
+}
+
 export default function V1DetailPage({id}){
     const [nftInfo, setNftInfo] = useState(null)
 
@@ -49,8 +55,8 @@ function DetailLoaded({nftInfo, refresh}) {
     const [toAddress, setToAddress] = useState("")
 
     const getAccount = async () => {
-        const accounts = await window.ethereum.send('eth_requestAccounts');
-        var account = ethers.utils.getAddress(accounts.result[0])
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        var account = ethers.utils.getAddress(accounts[0])
         setAccount(account)
         setIsOwner(account == nftInfo.owner)
         window.ethereum.on('accountsChanged', function (accounts) {
