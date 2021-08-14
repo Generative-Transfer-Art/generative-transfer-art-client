@@ -134,7 +134,7 @@ function DetailLoaded({nftInfo, refresh}) {
                 }
                 
                 {nftInfo.copyOf != 0 || !isOwner ? "" : <WrapperTransferButton from={account} id={nftInfo.id} contract={artTransferContractWeb3} refresh={refresh}/>}
-                {nftInfo.wrappedOwner != account ? "" : <WrapperWithdrawButton to={account} id={nftInfo.id} contract={wrappedArtTransferContractWeb3} refresh={refresh}/>}
+                {account == null || nftInfo.wrappedOwner != account ? "" : <WrapperWithdrawButton to={account} id={nftInfo.id} contract={wrappedArtTransferContractWeb3} refresh={refresh}/>}
                 <br/>
 
                 <AddressInput address={toAddress} setAddress={setToAddress}/>
