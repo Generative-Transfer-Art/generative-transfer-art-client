@@ -207,7 +207,7 @@ function TransferButton({from, to, id, contract, refresh}){
 
       return(
             <div>
-            { success ? "" : <button className="btn" onClick={transfer}> trasfer to {to.slice(0, 5)}...</button> }
+            { success ? "" : <button className="btn" onClick={transfer}> transfer to {to.slice(0, 5)}...</button> }
 
             {
                 transactionHash == "" ? "" :
