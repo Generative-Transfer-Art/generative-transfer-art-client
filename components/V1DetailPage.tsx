@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import getNFTInfo from '../lib/getNFTInfo';
 import { ethers } from "ethers";
 import TransferArtArtifact from "../contracts/TransferArt.json";
+import WrappedTransferArtArtifact from "../contracts/WrappedTransferArt.json";
 import Media from './Media';
 
 const _provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_JSON_RPC_PROVIDER);
@@ -10,6 +11,12 @@ const transferArtContract = new ethers.Contract(
       process.env.NEXT_PUBLIC_CONTRACT,
       TransferArtArtifact.abi,
       _provider
+    );
+
+const wrappedTransferArtContract = new ethers.Contract(
+    process.env.NEXT_PUBLIC_WRAPPED_GTAP1,
+    WrappedTransferArtArtifact.abi,
+    _provider
     );
 
 declare global {
@@ -30,6 +37,10 @@ export default function V1DetailPage({id}){
         const owner = await transferArtContract.ownerOf(id + "")
         info["copyOf"] = copyOf
         info["owner"] = owner
+        if(owner == process.env.NEXT_PUBLIC_WRAPPED_GTAP1){
+            const wrappedOwner = await wrappedTransferArtContract.ownerOf(id + "")
+            info["wrappedOwner"] = wrappedOwner
+        }
 
         setNftInfo(info)
     }
@@ -48,7 +59,8 @@ export default function V1DetailPage({id}){
 }
 
 function DetailLoaded({nftInfo, refresh}) {
-    const [artTransferContractWeb3, setArtTransferContractWeb3] = React.useState(null)
+    const [artTransferContractWeb3, setArtTransferContractWeb3] = useState(null)
+    const [wrappedArtTransferContractWeb3, setWrappedArtTransferContractWeb3] = useState(null)
     const [providerAvailable, setProviderAvailable] = useState(null)
     const [account, setAccount] = useState(null)
     const [isOwner, setIsOwner] = useState(false)
@@ -76,12 +88,21 @@ function DetailLoaded({nftInfo, refresh}) {
     
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         setArtTransferContractWeb3(createWeb3ArtTransfers(provider))
+        setWrappedArtTransferContractWeb3(createWrappedWeb3ArtTransfers(provider))
     }
     
     const createWeb3ArtTransfers = (provider) => {
         return new ethers.Contract(
             process.env.NEXT_PUBLIC_CONTRACT,
             TransferArtArtifact.abi,
+            provider.getSigner(0)
+        );
+    }
+
+    const createWrappedWeb3ArtTransfers = (provider) => {
+        return new ethers.Contract(
+            process.env.NEXT_PUBLIC_WRAPPED_GTAP1,
+            WrappedTransferArtArtifact.abi,
             provider.getSigner(0)
         );
     }
@@ -112,6 +133,9 @@ function DetailLoaded({nftInfo, refresh}) {
                     </div>
                 }
                 
+                {nftInfo.copyOf != 0 || !isOwner ? "" : <WrapperTransferButton from={account} id={nftInfo.id} contract={artTransferContractWeb3} refresh={refresh}/>}
+                {nftInfo.wrappedOwner != account ? "" : <WrapperWithdrawButton to={account} id={nftInfo.id} contract={wrappedArtTransferContractWeb3} refresh={refresh}/>}
+                <br/>
 
                 <AddressInput address={toAddress} setAddress={setToAddress}/>
                 <br/>
@@ -183,7 +207,7 @@ function TransferButton({from, to, id, contract, refresh}){
 
     const transfer = async () => {
         setTransactionHash("")
-        const t = await contract.transferFrom(from, to, id)
+        const t = await contract['safeTransferFrom(address,address,uint256)'](from, to, id)
         setTransactionHash(t.hash)
         t.wait().then((receipt) => {
             waitForEvent()
@@ -218,6 +242,116 @@ function TransferButton({from, to, id, contract, refresh}){
                 success ? 
                 <div> 
                 Successfully transferred
+                </div>
+                :
+                <div>
+                {
+                transactionHash == "" ? "" :
+                "Waiting for transaction to land on chain..."
+                }
+                </div>
+
+            }
+          </div>
+      )
+}
+
+function WrapperTransferButton({from, id, contract, refresh}){
+    const [transactionHash, setTransactionHash] = useState("")
+    const [success, setSuccess] = useState(false)
+
+    const transfer = async () => {
+        setTransactionHash("")
+        const t = await contract['safeTransferFrom(address,address,uint256)'](from, process.env.NEXT_PUBLIC_WRAPPED_GTAP1, id)
+        setTransactionHash(t.hash)
+        t.wait().then((receipt) => {
+            waitForEvent()
+            refresh()
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+    
+      const waitForEvent = async () => {
+        const filter = transferArtContract.filters.Transfer(from, process.env.NEXT_PUBLIC_WRAPPED_GTAP1)
+        console.log(filter)
+        transferArtContract.once(filter, (from, to, id) => {
+            setSuccess(true)
+            refresh()
+          
+        }
+        )
+      }
+
+      return(
+            <div>
+            { success ? "" : <button className="btn" onClick={transfer}> Transfer to Wrapped GTAP1 Originals and get a Wrapped GTAP Token</button> }
+
+            {
+                transactionHash == "" ? "" :
+                <a target="_blank" href={process.env.NEXT_PUBLIC_ETHERSCAN_URL + "/tx/" +  transactionHash}> See transaction on Etherscan</a>
+            }
+
+            {
+                success ? 
+                <div> 
+                Successfully transferred
+                </div>
+                :
+                <div>
+                {
+                transactionHash == "" ? "" :
+                "Waiting for transaction to land on chain..."
+                }
+                </div>
+
+            }
+          </div>
+      )
+}
+
+function WrapperWithdrawButton({to, id, contract, refresh}){
+    const [transactionHash, setTransactionHash] = useState("")
+    const [success, setSuccess] = useState(false)
+
+    const withdraw = async () => {
+        setTransactionHash("")
+        const t = await contract.withdraw(to, id)
+        setTransactionHash(t.hash)
+        t.wait().then((receipt) => {
+            waitForEvent()
+            refresh()
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+    
+      const waitForEvent = async () => {
+        const filter = transferArtContract.filters.Transfer(process.env.NEXT_PUBLIC_WRAPPED_GTAP1, to)
+        console.log(filter)
+        transferArtContract.once(filter, (from, to, id) => {
+            setSuccess(true)
+            refresh()
+          
+        }
+        )
+      }
+
+      return(
+            <div>
+            { success ? "" : <button className="btn" onClick={withdraw}>  Withdraw from Wrapped GTAP1 Contract </button> }
+
+            {
+                transactionHash == "" ? "" :
+                <a target="_blank" href={process.env.NEXT_PUBLIC_ETHERSCAN_URL + "/tx/" +  transactionHash}> See transaction on Etherscan</a>
+            }
+
+            {
+                success ? 
+                <div> 
+                Successfully withdrew
                 </div>
                 :
                 <div>
