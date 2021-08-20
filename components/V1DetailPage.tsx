@@ -195,7 +195,7 @@ function AddressInput({address, setAddress}){
 function ShowColorRect({cssProperties}){
     return (
         <div>
-            <p> Address color: rgba({cssProperties['--r']},{cssProperties['--g']},{cssProperties['--b']},{Math.max(1,cssProperties['--a'])}) </p>
+            <p> Address color: rgba({cssProperties['--r']},{cssProperties['--g']},{cssProperties['--b']},{Math.min(1,cssProperties['--a'])}) </p>
             <div id="show-color-rect" style={cssProperties} > </div>
         </div>
     )
