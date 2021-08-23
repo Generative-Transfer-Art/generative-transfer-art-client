@@ -144,8 +144,12 @@ function DetailLoaded({nftInfo, refresh}) {
                 {!isOwner ? "" : <TransferButton from={account} to={toAddress} id={nftInfo.id} contract={artTransferContractWeb3} refresh={refresh}/>}
                 <br/>
                 <br/>
-                {nftInfo.copyOf != 0 || !isOwner ? "" : <WrapperTransferButton from={account} id={nftInfo.id} contract={artTransferContractWeb3} refresh={refresh}/>}
+                {nftInfo.copyOf != 0 || !isOwner ? "" : 
+                <div>
+                <WrapperTransferButton from={account} id={nftInfo.id} contract={artTransferContractWeb3} refresh={refresh}/>
                 <p className='red'> Warning: wrapping adds to NFT art, if 4x4 is not full </p>
+                </div>
+                }
         </div>
     )
 }
