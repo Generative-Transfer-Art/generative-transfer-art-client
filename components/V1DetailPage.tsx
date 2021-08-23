@@ -118,6 +118,7 @@ function DetailLoaded({nftInfo, refresh}) {
                     <Media media={nftInfo.mediaUrl} mediaMimeType={nftInfo.mediaMimeType} autoPlay={false}/>   
                 </div> 
                 <a target="_blank" href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_CONTRACT + "/" +  nftInfo.id}> View On OpenSea </a>
+                <br/>
                 { nftInfo['wrappedOwner'] == null ? "" :  <a target="_blank" href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_WRAPPED_GTAP1 + "/" +  nftInfo.id}> View in Wrapped Originals OpenSea Collection </a> }
                 <br/>
                 <div> Owned by {nftInfo.owner} </div>
