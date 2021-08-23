@@ -117,6 +117,8 @@ function DetailLoaded({nftInfo, refresh}) {
                 <div id="v1-media">
                     <Media media={nftInfo.mediaUrl} mediaMimeType={nftInfo.mediaMimeType} autoPlay={false}/>   
                 </div> 
+                <a target="_blank" href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_CONTRACT + "/" +  nftInfo.id}> View On OpenSea </a>
+                { nftInfo['wrappedOwner'] == null ? "" :  <a target="_blank" href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_WRAPPED_GTAP1 + "/" +  nftInfo.id}> View in Wrapped Originals OpenSea Collection </a> }
                 <br/>
                 <div> Owned by {nftInfo.owner} </div>
                 <br/>
@@ -133,13 +135,16 @@ function DetailLoaded({nftInfo, refresh}) {
                     </div>
                 }
                 
-                {nftInfo.copyOf != 0 || !isOwner ? "" : <WrapperTransferButton from={account} id={nftInfo.id} contract={artTransferContractWeb3} refresh={refresh}/>}
                 {account == null || nftInfo.wrappedOwner != account ? "" : <WrapperWithdrawButton to={account} id={nftInfo.id} contract={wrappedArtTransferContractWeb3} refresh={refresh}/>}
                 <br/>
 
                 <AddressInput address={toAddress} setAddress={setToAddress}/>
                 <br/>
-                {toAddress == "" || !ethers.utils.isAddress(toAddress) || !isOwner ? "" : <TransferButton from={account} to={toAddress} id={nftInfo.id} contract={artTransferContractWeb3} refresh={refresh}/>}
+                {!isOwner ? "" : <TransferButton from={account} to={toAddress} id={nftInfo.id} contract={artTransferContractWeb3} refresh={refresh}/>}
+                <br/>
+                <br/>
+                {nftInfo.copyOf != 0 || !isOwner ? "" : <WrapperTransferButton from={account} id={nftInfo.id} contract={artTransferContractWeb3} refresh={refresh}/>}
+                <p className='red'> Warning: wrapping adds to NFT art, if 4x4 is not full </p>
         </div>
     )
 }
@@ -204,8 +209,12 @@ function ShowColorRect({cssProperties}){
 function TransferButton({from, to, id, contract, refresh}){
     const [transactionHash, setTransactionHash] = useState("")
     const [success, setSuccess] = useState(false)
+    const [error, setError] = useState("")
 
     const transfer = async () => {
+        // if(!ethers.utils.isAddress(to)){
+
+        // }
         setTransactionHash("")
         const t = await contract['safeTransferFrom(address,address,uint256)'](from, to, id)
         setTransactionHash(t.hash)
@@ -231,7 +240,7 @@ function TransferButton({from, to, id, contract, refresh}){
 
       return(
             <div>
-            { success ? "" : <button className="btn" onClick={transfer}> transfer to {to.slice(0, 5)}...</button> }
+            { success ? "" : <button className="btn" onClick={transfer} disabled={!ethers.utils.isAddress(to)}> transfer to {to.slice(0, 5)}...</button> }
 
             {
                 transactionHash == "" ? "" :
