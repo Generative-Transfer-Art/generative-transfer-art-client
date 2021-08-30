@@ -122,7 +122,7 @@ export default function Home(){
       <ConnectWallet addressSetCallback={addressSetCallback}/>
       
     <h1 className="century">  Animal Coloring Book </h1>
-    <p className="century"> This is a Generative Transfer Art project, building off of <a href="https://opensea.io/collection/wgtap1-og">GTAP1</a>. Each NFT can be one of six Animals, but each begins as a blank canvas. The first four times the NFT is transferred, a color is filled in based on the recipient's address. On the fourth transfer, the Animal's mood is revealed - the coloring and animation of its eyes.  The 10x10 SVG art and animation are generated and stored entirely on-chain.</p>
+    <p className="century"> This is a Generative Transfer Art project, building off of <a href="https://opensea.io/collection/wgtap1-og">GTAP1</a>. There are six animal types, and the type is assigned randomly on mint. On mint, the NFT image will be blank. The first four times the NFT is transferred, a color is filled in based on the recipient's address. On the fourth transfer, the Animal's mood is revealed - the coloring and animation of its eyes.  The 10x10 SVG art and animation are generated and stored entirely on-chain.</p>
     <SequentialAnimalPreview />
     <MintingSection info={projectState} />
     <br/>
