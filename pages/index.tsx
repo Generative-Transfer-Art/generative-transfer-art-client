@@ -91,7 +91,8 @@ export default function Home(){
     setWeb3Contract(web3AnimalColoringBook(provider))
     setIsEarlyMintEligable(gtap1SnapShot.addresses.includes(address))
     setAccount(address)
-    if(isEarlyMintEligable){
+    if(gtap1SnapShot.addresses.includes(address)){
+      console.log('setting proof')
       setMerkleProof(merkleTree.getHexProof(toBuffer(address)))
     }
     const count = await animalColoringBookContract.gtapHolderMintCount(address)
