@@ -12,7 +12,7 @@ export default function Tickets() {
 
   return (
   	<div>
-  <V1DetailPage id={id} />
+      <V1DetailPage id={id} />
   </div>
   )
 }
