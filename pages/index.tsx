@@ -241,7 +241,7 @@ function MintAnimal({account, merkleProof, contract, mintCallBack}){
   const mint = async () => {
     setTransactionHash("")
     setColoringBookId(null)
-    const t = await contract.gtap1HolderMint(account, true, merkleProof, {value: ethers.utils.parseUnits("0.3", 18)})
+    const t = await contract.gtap1HolderMint(account, false, merkleProof, {value: ethers.utils.parseUnits("0.2", 18)})
     setTransactionHash(t.hash)
     t.wait().then((receipt) => {
         waitForEvent()
