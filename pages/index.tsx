@@ -326,7 +326,7 @@ function MintAnimalAndEraser({account, merkleProof, contract, mintCallBack}){
     <legend> <h3 className='century'> Animal + Eraser</h3> </legend>
     <div className='images'> 
     <img className='float-left' src="mystery.svg" />
-    <img className='float-left' src="ERASER.svg" />
+    <img className='float-left' src="eraser.svg" />
     </div>
     <div className='mint-button' onClick={mint}> Mint for 0.3 ETH </div>
     {
