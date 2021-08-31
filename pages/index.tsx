@@ -47,7 +47,7 @@ export default function Home(){
   const [account, setAccount] = useState(null)
   const [merkleTree, setMerkleTree] = useState(null)
   const [merkleProof, setMerkleProof] = useState(null)
-  const [holderMintCount, setHolderMintCount] = useState(null)
+  const [holderMintCount, setHolderMintCount] = useState("0")
 
   // const elements = gtap1SnapShot.addresses.map(m =>ethers.utils.keccak256(m))
   // elements.sort(Buffer.compare)
@@ -65,6 +65,10 @@ export default function Home(){
       curBlock: curBlock.toString()
     }
     setProjectState(state);
+    if(account != null){
+      const count = await animalColoringBookContract.gtapHolderMintCount(account)
+      setHolderMintCount(count.toString())
+    }
   }
 
   const setup = () => {
@@ -72,8 +76,6 @@ export default function Home(){
       console.log(m)
       return toBuffer(m)
     }))
-    console.log('root')
-    console.log(merkleTree.getHexRoot())
     setMerkleTree(merkleTree)
     getProjectState()
   }
@@ -122,37 +124,47 @@ export default function Home(){
       <ConnectWallet addressSetCallback={addressSetCallback}/>
       
     <h1 className="century">  Animal Coloring Book </h1>
-    <p className="century"> This is a Generative Transfer Art project, building off of <a href="https://opensea.io/collection/wgtap1-og">GTAP1</a>. There are six animal types, and the type is assigned randomly on mint. On mint, the NFT image will be blank. The first four times the NFT is transferred, a color is filled in based on the recipient's address. On the fourth transfer, the Animal's mood is revealed - the coloring and animation of its eyes.  The 10x10 SVG art and animation are generated and stored entirely on-chain.</p>
+    <p className="century"> This is a Generative Transfer Art project, building off of <a href="https://opensea.io/collection/wgtap1-og">GTAP1</a>. When you mint an animal, it will be randomly assigned one of six possible types. To begin, the NFT image will be blank. The first four times the NFT is transferred, a color is filled in based on the recipient's address. On the fourth transfer, the Animal's mood is revealed - the coloring and animation of its eyes. The 10x10 SVG art and animation are generated and stored entirely on-chain.</p>
     <SequentialAnimalPreview />
     <MintingSection info={projectState} />
     <br/>
     { account == null ? 
-    <p className="century blue"> Connect address to see minting options</p>
+    <p className="century orange"> Connect address to see minting options</p>
     :
     <div>
     {projectState  == null ? ''
     : 
     <div>
       { isEarlyMintEligable ? 
-      <p className="century blue"> You are eligable for early minting. You can mint 2 Animal Coloring Books and additional 1 for free if you own a GTAP1 original.</p>
+      <div>
+      
+      <div>
+        
+        <div>
+        { parseInt(holderMintCount) < 2 ? <p className="century blue"> You are eligable for early minting. You can mint 2 Animal Coloring Books and additional 1 for free if you own a GTAP1 original.</p> : 
+      <p className="century blue"> Yay! You've claimed your two early mints </p>
+        }
+          <div id='mint-box-wrapper'>
+            <MintAnimal account={account} merkleProof={merkleProof} contract={web3Contract} mintCallBack={getProjectState}/>
+            <MintAnimalAndEraser account={account} merkleProof={merkleProof} contract={web3Contract} mintCallBack={getProjectState}/>
+            <br/>
+          </div>
+        </div>
+      </div>
+      </div>
       :
     <EligabilityExplainer info={projectState} />
     }
     </div>
     }
     <br/>
-    {account == null ? "" :
-    <div>
-      <div id='mint-box-wrapper'>
-        <MintAnimal account={account} merkleProof={merkleProof} contract={web3Contract} mintCallBack={getProjectState}/>
-        <MintAnimalAndEraser account={account} merkleProof={merkleProof} contract={web3Contract} mintCallBack={getProjectState}/>
-        <br/>
-      </div>
-      <GTAP1OG account={account} contract={web3Contract} mintCallBack={getProjectState}/>
+    {account == null ? '' :
+    <GTAP1OG account={account} contract={web3Contract} mintCallBack={getProjectState}/>
+    }
+    
     </div>
     }
-    </div>
-    }
+    <div id='footer'></div>
    </div>
       
   )
@@ -364,7 +376,7 @@ function EligabilityExplainer({info}){
   return(
     <div>
       {parseInt(info.curBlock) >= parseInt(info.publicStartBlock) ? '' :
-        <p className="century blue"> Minting is currently limited to GTAP1 holders (Snapshot taken 10PM ET August 29). The address you are connected with is not eligible for early minting. Public minting will start at block {info.publicStartBlock}, roughly 11PM ET August 29.</p>
+        <p className="century blue"> Minting is currently limited to GTAP1 holders (Snapshot taken 10PM ET August 29). The address you are connected with is not eligible for early minting. Public minting will start at block {info.publicStartBlock}, roughly 10PM ET September 1. If you hold a GTAP1 Original, see below.</p>
       }
     </div>
   )

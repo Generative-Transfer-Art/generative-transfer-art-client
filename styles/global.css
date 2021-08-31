@@ -184,10 +184,11 @@ body {
  .animal-mint-box>.images{
    margin-top: 20px;
    margin-bottom: 20px;
-   height: 80px;
+   height: 90px;
  }
 
  .images>img{
+   height: 90px;
    padding-right: 20px;
  }
 
@@ -227,4 +228,13 @@ body {
   border-radius: 6px;
   cursor: pointer;
   display: inline-block;
+ }
+
+ #footer{
+   height: 200px;
+   width: 100%;
+ }
+ 
+ .orange{
+   color: orange;
  }

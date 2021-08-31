@@ -1,10 +1,11 @@
 import { ethers } from "ethers";
+import AnimalColoringBookDescriptorsArtifact from '../../contracts/AnimalColoringBookDescriptors.json'
 
 export default function addressHSl(address: string) {
     const h = addressH(address)
     return `hsl(${h},100%,50%)`
 }
 
-export function addressH(address: string) {
-    return parseInt(ethers.utils.keccak256(ethers.utils.toUtf8Bytes(address))) % 360
+export const addressH = (address: string) => {
+    return ethers.BigNumber.from(ethers.utils.keccak256(address)).mod(360).toNumber()
 }

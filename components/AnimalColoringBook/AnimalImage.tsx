@@ -1,5 +1,7 @@
 import addressHSL, {addressH} from '../../lib/AnimalColoringBook/addressHSL';
 import svgToMiniDataURI from 'mini-svg-data-uri';
+import { useState } from 'react';
+import { setupMaster } from 'cluster';
 
 export default function AnimalImage({animalType, transferHistory}) {
         const svg = getSVG(animalType, transferHistory)
