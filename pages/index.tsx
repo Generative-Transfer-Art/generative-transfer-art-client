@@ -142,7 +142,7 @@ export default function Home(){
         
         <div>
         { parseInt(holderMintCount) < 2 ? <p className="century blue"> You are eligable for early minting. You can mint 2 Animal Coloring Books and additional 1 for free if you own a GTAP1 original.</p> : 
-      <p className="century blue"> Yay! You've claimed your two early mints </p>
+      <p className="century blue"> Yay! You've claimed your two early mints. </p>
         }
           <div id='mint-box-wrapper'>
             <MintAnimal account={account} merkleProof={merkleProof} contract={web3Contract} mintCallBack={getProjectState}/>

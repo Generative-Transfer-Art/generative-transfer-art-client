@@ -6,10 +6,10 @@ import {addressH} from '../../lib/AnimalColoringBook/addressHSL';
 
 export default function SequentialAnimalPreview() {
     const [animalType, setAnimalType] = useState(1);
-    const [addr1, setAddr1] = useState(ethers.Wallet.createRandom().address)
-    const [addr2, setAddr2] = useState(ethers.Wallet.createRandom().address)
-    const [addr3, setAddr3] = useState(ethers.Wallet.createRandom().address)
-    const [addr4, setAddr4] = useState(ethers.Wallet.createRandom().address)
+    const [addr1, setAddr1] = useState("0xE592427A0AEce92De3Edee1F18E0157C05861564")
+    const [addr2, setAddr2] = useState("0xc0A874CB3042E8f557819124c665ab6F34174Fca")
+    const [addr3, setAddr3] = useState("0x80AEA4EEed34806a038841656C2EDe5F0dC45e95")
+    const [addr4, setAddr4] = useState("0x491fd53e5E0D8b4A5F28d008856060Cda5380aaf")
     const [history1, setHistory1] = useState([addr1])
     const [history2, setHistory2] = useState([addr1, addr2])
     const [history3, setHistory3] = useState([addr1, addr2, addr3])
