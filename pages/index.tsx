@@ -183,7 +183,8 @@ function GTAP1OG({account, contract, mintCallBack}){
   const mint = async () => {
     setTransactionHash("")
     setColoringBookId(null)
-    const t = await contract.gtap1OGHolderMint(account, value.trim())
+    var options = { gasLimit: 300000 };
+    const t = await contract.gtap1OGHolderMint(account, value.trim(), options)
     setTransactionHash(t.hash)
     t.wait().then((receipt) => {
         waitForEvent()
@@ -253,7 +254,8 @@ function MintAnimal({account, merkleProof, contract, mintCallBack}){
   const mint = async () => {
     setTransactionHash("")
     setColoringBookId(null)
-    const t = await contract.gtap1HolderMint(account, false, merkleProof, {value: ethers.utils.parseUnits("0.2", 18)})
+    var options = { gasLimit: 300000, value: ethers.utils.parseUnits("0.2", 18) };
+    const t = await contract.gtap1HolderMint(account, false, merkleProof, options)
     setTransactionHash(t.hash)
     t.wait().then((receipt) => {
         waitForEvent()
@@ -310,7 +312,8 @@ function MintAnimalAndEraser({account, merkleProof, contract, mintCallBack}){
   const mint = async () => {
     setTransactionHash("")
     setColoringBookId(null)
-    const t = await contract.gtap1HolderMint(account, true, merkleProof, {value: ethers.utils.parseUnits("0.3", 18)})
+    var options = { gasLimit: 300000, value: ethers.utils.parseUnits("0.3", 18) };
+    const t = await contract.gtap1HolderMint(account, true, merkleProof, options)
     setTransactionHash(t.hash)
     t.wait().then((receipt) => {
         waitForEvent()

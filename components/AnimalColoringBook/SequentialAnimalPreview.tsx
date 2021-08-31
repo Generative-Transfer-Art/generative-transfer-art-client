@@ -16,7 +16,11 @@ export default function SequentialAnimalPreview() {
     const [history4, setHistory4] = useState([addr1, addr2, addr3, addr4])
 
     const toggleAnimal = () => {
-        setAnimalType(Math.floor((Math.random() * 6 ) + 1))
+        var n = Math.floor((Math.random() * 6 ) + 1)
+        while(n == animalType){
+            n = Math.floor((Math.random() * 6 ) + 1)
+        }
+        setAnimalType(n)
     }
 
     const updateAddr1 = (address) => {
