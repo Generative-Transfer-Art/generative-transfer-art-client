@@ -125,8 +125,9 @@ export default function Home(){
       <ConnectWallet addressSetCallback={addressSetCallback}/>
       
     <h1 className="century">  Animal Coloring Book </h1>
-    <p className="century"> This is a Generative Transfer Art project, building off of <a href="https://opensea.io/collection/wgtap1-og">GTAP1</a>. When you mint an animal, it will be randomly assigned one of six possible types. To begin, the NFT image will be blank. The first four times the NFT is transferred, a color is filled in based on the recipient's address. On the fourth transfer, the Animal's mood is revealed - the coloring and animation of its eyes. The 10x10 SVG art and animation are generated and stored entirely on-chain. See them on <a target="_blank"href="https://opensea.io/collection/animal-coloring-book">OpenSea</a> (<a target="_blank" href="https://opensea.io/collection/animal-coloring-book?search[stringTraits][0][name]=Coloring&search[stringTraits][0][values][0]=4%2F4">filter</a> for fully colored). </p>
+    <p className="century"> This is a Generative Transfer Art project, building off of <a href="https://opensea.io/collection/wgtap1-og">GTAP1</a>. When you mint an animal, it will be randomly assigned one of six possible types. To begin, the NFT image will be blank. The first four times the NFT is transferred, a color is filled in based on the recipient's address. On the fourth transfer, the Animal's mood is revealed - the coloring and animation of its eyes. The 10x10 SVG art and animation are generated and stored entirely on-chain. See them on <a target="_blank" href="https://opensea.io/collection/animal-coloring-book">OpenSea</a> (<a target="_blank" href="https://opensea.io/collection/animal-coloring-book?search[stringTraits][0][name]=Coloring&search[stringTraits][0][values][0]=4%2F4">filter</a> for fully colored). </p>
     <SequentialAnimalPreview />
+    <Animals />
     <MintingSection info={projectState} />
     <br/>
     { account == null ? 
@@ -263,6 +264,35 @@ function GTAP1OG({account, contract, mintCallBack}){
       
     }
     </div>
+  )
+}
+
+function Animals(){
+  return(
+    <div id='meet-animals'>
+      <h2 className='century'> Meet the Animals </h2>
+      <p className='century'> There are six animal types in the collection: Cat, Bunny, Mouse, Skull, Unicorn, and Creator. Each animal also gets a mood, which controls the animation of its eyes. The possible moods are Aloof, Shy, Mischievous, Flirty, Dramatic, and Sly.</p>
+      {/* <p className='century'> There are six different animals, each with a different likelihood of being minted, i.e. each have a different rarity. The moods, assigned randomly on the fourth transfer, also have different rarity.</p>
+      <p className='century'> Animal rarity: 30% Cat, 25% Bunny, 20% Mouse, 15% Skull, 8% Unicorn, 2% Creator</p>
+      <p className='century'> Mood rarity: 40% Aloof, 10% Dramatic, 10% Shy, 10% Mischievous, 10% Sly, 10% Flirty</p> */}
+      <Animal type={'cat'} mood='Dramatic' moodRarity={'10'} typeRarity={'30'} />
+      <Animal type={'bunny'} mood='Aloof' moodRarity={'40'} typeRarity={'25'} />
+      <Animal type={'mouse'} mood='Shy' moodRarity={'10'} typeRarity={'20'} />
+      <Animal type={'skull'} mood='Mischievous' moodRarity={'10'} typeRarity={'15'} />
+      <Animal type={'unicorn'} mood='Sly' moodRarity={'10'} typeRarity={'8'} />
+      <Animal type={'creator'} mood='Flirty' moodRarity={'10'} typeRarity={'2'} />
+    </div>
+  )
+}
+
+function Animal({type, mood, moodRarity, typeRarity}){
+  return(
+    <div className='animal-item'>
+      <img src={`${type}.svg`} />
+      <p className='century'>{mood} {type}</p>
+      {/* <p className='century'> {`${mood} (${moodRarity}%) ${type} (${typeRarity}%)`}</p> */}
+    </div>
+
   )
 }
 
@@ -525,7 +555,7 @@ function EligabilityExplainer({info}){
   return(
     <div>
       {parseInt(info.curBlock) >= parseInt(info.publicStartBlock) ? '' :
-        <p className="century blue"> Minting is currently limited to GTAP1 holders (Snapshot taken 10PM ET August 29). The address you are connected with is not eligible for early minting. Public minting will start at block {info.publicStartBlock}, roughly 10PM ET September 1. If you hold a GTAP1 Original, see below.</p>
+        <p className="century blue"> Minting is currently limited to GTAP1 holders (Snapshot taken 10PM ET August 29). The address you are connected with is not eligible for early minting. Public minting will start at block {info.publicStartBlock}, roughly 9PM ET September 1. See countdown <a href='https://etherscan.io/block/countdown/13143103'>here</a>. If you hold a GTAP1 Original, see below.</p>
       }
     </div>
   )

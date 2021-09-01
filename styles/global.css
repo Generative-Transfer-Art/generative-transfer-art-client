@@ -242,3 +242,16 @@ body {
  .orange{
    color: orange;
  }
+
+ #meet-animals{
+   
+ }
+
+ #meet-animals>img{
+   /* padding: 20px; */
+ }
+
+ .animal-item{
+  margin: 20px;
+  display: inline-block;
+ }

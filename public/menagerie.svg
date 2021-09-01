@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="720" height="440" viewBox="0 0 720 440" xml:space="preserve">
+
+<style type="text/css">
+	rect{width: 1px; height: 1px;}
+	.c1{fill:hsl(188,100%,50%);}
+	.c2{fill:hsl(219,100%,40%);}
+	.c3{fill:hsl(300,100%,50%);}
+	.c4{fill:hsl(72,100%,50%);}
+	.c5{fill:#ffffff;}
+	.container{width: 200px; height: 200px;}
+</style>
+<image x="0" y="0" width="200" height="200" href="./bunny.svg" />
+<image x="240" y="0" width="200" height="200" href="mouse.svg" />
+<image x="480" y="0" width="200" height="200" href="skull.svg" />
+<image x="0" y="240" width="200" height="200" href="creator.svg" />
+<image x="240" y="240" width="200" height="200" href="cat.svg" />
+<image x="480" y="240" width="200" height="200" href="unicorn.svg" />
+
+
+</svg>

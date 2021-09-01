@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200" viewBox="0 0 10 10" xml:space="preserve" shape-rendering="optimizeSpeed">
+
+<style type="text/css">
+	.s{width: 1px; height: 1px;}
+	.c1{fill:hsl(55,100%,50%);}
+	.c2{fill:hsl(201,100%,40%);}
+	.c3{fill:hsl(355,100%,50%);}
+	.c4{fill:hsl(330,100%,50%);}
+	.c5{fill:#ffffff;}
+</style>
+
+<rect x="0" y="0" class="c4 s"/>
+<rect x="1" y="0" class="c2 s"/>
+<rect x="2" y="0" class="c2 s"/>
+<rect x="3" y="0" class="c4 s"/>
+<rect x="4" y="0" class="c4 s"/>
+<rect x="5" y="0" class="c4 s"/>
+<rect x="6" y="0" class="c4 s"/>
+<rect x="7" y="0" class="c4 s"/>
+<rect x="8" y="0" class="c4 s"/>
+<rect x="9" y="0" class="c4 s"/>
+
+<rect x="0" y="1" class="c4 s"/>
+<rect x="1" y="1" class="c4 s"/>
+<rect x="2" y="1" class="c2 s"/>
+<rect x="3" y="1" class="c2 s"/>
+<rect x="4" y="1" class="c4 s"/>
+<rect x="5" y="1" class="c4 s"/>
+<rect x="6" y="1" class="c4 s"/>
+<rect x="7" y="1" class="c4 s"/>
+<rect x="8" y="1" class="c4 s"/>
+<rect x="9" y="1" class="c4 s"/>
+
+<rect x="0" y="2" class="c4 s"/>
+<rect x="1" y="2" class="c4 s"/>
+<rect x="2" y="2" class="c2 s"/>
+<rect x="3" y="2" class="c2 s"/>
+<rect x="4" y="2" class="c2 s"/>
+<rect x="5" y="2" class="c4 s"/>
+<rect x="6" y="2" class="c4 s"/>
+<rect x="7" y="2" class="c4 s"/>
+<rect x="8" y="2" class="c4 s"/>
+<rect x="9" y="2" class="c4 s"/>
+
+<rect x="0" y="3" class="c4 s"/>
+<rect x="1" y="3" class="c4 s"/>
+<rect x="2" y="3" class="c4 s"/>
+<rect x="3" y="3" class="c2 s"/>
+<rect x="4" y="3" class="c2 s"/>
+<rect x="5" y="3" class="c2 s"/>
+<rect x="6" y="3" class="c4 s"/>
+<rect x="7" y="3" class="c4 s"/>
+<rect x="8" y="3" class="c4 s"/>
+<rect x="9" y="3" class="c4 s"/>
+
+<rect x="0" y="4" class="c1 s"/>
+<rect x="1" y="4" class="c4 s"/>
+<rect x="2" y="4" class="c1 s"/>
+<rect x="3" y="4" class="c2 s"/>
+<rect x="4" y="4" class="c2 s"/>
+<rect x="5" y="4" class="c1 s"/>
+<rect x="6" y="4" class="c1 s"/>
+<rect x="7" y="4" class="c1 s"/>
+<rect x="8" y="4" class="c4 s"/>
+<rect x="9" y="4" class="c1 s"/>
+
+<rect x="0" y="5" class="c4 s"/>
+<rect x="1" y="5" class="c1 s"/>
+<rect x="2" y="5" class="c1 s"/>
+<rect x="3" y="5" class="c1 s"/>
+<rect x="4" y="5" class="c1 s"/>
+<rect x="5" y="5" class="c1 s"/>
+<rect x="6" y="5" class="c1 s"/>
+<rect x="7" y="5" class="c1 s"/>
+<rect x="8" y="5" class="c1 s"/>
+<rect x="9" y="5" class="c4 s"/>
+
+<rect x="0" y="6" class="c4 s"/>
+<rect x="1" y="6" class="c5 s"/>
+<rect x="2" y="6" class="c5 s"/>
+<rect x="3" y="6" class="c1 s"/>
+<rect x="4" y="6" class="c1 s"/>
+<rect x="5" y="6" class="c1 s"/>
+<rect x="6" y="6" class="c5 s"/>
+<rect x="7" y="6" class="c5 s"/>
+<rect x="8" y="6" class="c1 s"/>
+<rect x="9" y="6" class="c4 s"/>
+
+<rect x="0" y="7" class="c4 s"/>
+<rect x="1" y="7" class="c5 s"/>
+<rect x="2" y="7" class="c5 s"/>
+<rect x="3" y="7" class="c1 s"/>
+<rect x="4" y="7" class="c1 s"/>
+<rect x="5" y="7" class="c1 s"/>
+<rect x="6" y="7" class="c5 s"/>
+<rect x="7" y="7" class="c5 s"/>
+<rect x="8" y="7" class="c1 s"/>
+<rect x="9" y="7" class="c4 s"/>
+
+<rect x="0" y="8" class="c4 s"/>
+<rect x="1" y="8" class="c1 s"/>
+<rect x="2" y="8" class="c1 s"/>
+<rect x="3" y="8" class="c1 s"/>
+<rect x="4" y="8" class="c1 s"/>
+<rect x="5" y="8" class="c1 s"/>
+<rect x="6" y="8" class="c1 s"/>
+<rect x="7" y="8" class="c1 s"/>
+<rect x="8" y="8" class="c1 s"/>
+<rect x="9" y="8" class="c4 s"/>
+
+<rect x="0" y="9" class="c4 s"/>
+<rect x="1" y="9" class="c2 s"/>
+<rect x="2" y="9" class="c1 s"/>
+<rect x="3" y="9" class="c1 s"/>
+<rect x="4" y="9" class="c2 s"/>
+<rect x="5" y="9" class="c1 s"/>
+<rect x="6" y="9" class="c1 s"/>
+<rect x="7" y="9" class="c1 s"/>
+<rect x="8" y="9" class="c1 s"/>
+<rect x="9" y="9" class="c4 s"/>
+
+<g id="eye-location" transform="translate(1,6)">
+	<g id="sly">
+		<rect x="1" y="1" class="c3 s">
+			<animate attributeName="x" values="1;1;.5;.5;1;1" keyTimes="0;.55;.6;.83;.85;1" dur="13s" repeatCount="indefinite"/>
+		</rect>
+		<rect x="6" y="1" class="c3 s">
+			<animate attributeName="x" values="6;6;5.5;5.5;6;6" keyTimes="0;.55;.6;.83;.85;1" dur="13s" repeatCount="indefinite"/>
+		</rect>
+		<rect x="0" y="0" class="c1" width="2" height="0">
+			<animate attributeName="height" values="0;0;1;1;2;1;1;0;0" keyTimes="0;.55;.6;.72;.73;.74;.83;.85;1" dur="13s" repeatCount="indefinite"/>
+		</rect>
+		<rect x="5" y="0" class="c1" width="2" height="0">
+			<animate attributeName="height" values="0;0;1;1;0;0" keyTimes="0;.55;.6;.83;.85;1" dur="13s" repeatCount="indefinite"/>
+		</rect>
+	</g>
+</g>
+</svg>

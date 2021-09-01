@@ -10,10 +10,6 @@ export default function SequentialAnimalPreview() {
     const [addr2, setAddr2] = useState("0xc0A874CB3042E8f557819124c665ab6F34174Fca")
     const [addr3, setAddr3] = useState("0x80AEA4EEed34806a038841656C2EDe5F0dC45e95")
     const [addr4, setAddr4] = useState("0x491fd53e5E0D8b4A5F28d008856060Cda5380aaf")
-    const [history1, setHistory1] = useState([addr1])
-    const [history2, setHistory2] = useState([addr1, addr2])
-    const [history3, setHistory3] = useState([addr1, addr2, addr3])
-    const [history4, setHistory4] = useState([addr1, addr2, addr3, addr4])
 
     const toggleAnimal = () => {
         var n = Math.floor((Math.random() * 6 ) + 1)
@@ -22,6 +18,37 @@ export default function SequentialAnimalPreview() {
         }
         setAnimalType(n)
     }
+
+    const newAddresses = () => {
+        setAddr1(ethers.Wallet.createRandom().address)
+        setAddr2(ethers.Wallet.createRandom().address)
+        setAddr3(ethers.Wallet.createRandom().address)
+        setAddr4(ethers.Wallet.createRandom().address)
+        console.log('updated')
+    }
+
+    return(
+        <div id='sequential-preview-wrapper'>
+            <div id='preview-explainer'>
+            <p className="float-left century">Paste an address into any step to test its color. </p>
+            <p className='float-left century text-btn' onClick={toggleAnimal}> Try a different animal. </p>
+    
+            </div>
+            <PreviewWrapper animalType={animalType} address1={addr1} address2={addr2} address3={addr3} address4={addr4} />
+            
+        </div>
+    )
+}
+
+function PreviewWrapper({animalType, address1, address2, address3, address4}){
+    const [addr1, setAddr1] = useState(address1)
+    const [addr2, setAddr2] = useState(address2)
+    const [addr3, setAddr3] = useState(address3)
+    const [addr4, setAddr4] = useState(address4)
+    const [history1, setHistory1] = useState([addr1])
+    const [history2, setHistory2] = useState([addr1, addr2])
+    const [history3, setHistory3] = useState([addr1, addr2, addr3])
+    const [history4, setHistory4] = useState([addr1, addr2, addr3, addr4])
 
     const updateAddr1 = (address) => {
         setAddr1(address) 
@@ -49,13 +76,13 @@ export default function SequentialAnimalPreview() {
         setHistory4([addr1, addr2, addr3, address])
     }
 
+    useEffect(() => {
+
+    }, [address1, address2, address3, address4])
+
+
     return(
-        <div id='sequential-preview-wrapper'>
-            <div id='preview-explainer'>
-            <p className="float-left century">Paste an address into any step to test its color. </p>
-            <p className='float-left century text-btn' onClick={toggleAnimal}> Try a different animal. </p>
-            </div>
-        
+        <div>
             <AnimalPreviewItem 
             animalType={animalType}
             history={history1}
