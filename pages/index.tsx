@@ -61,6 +61,7 @@ export default function Home(){
     var state = {
       minted: minted.toString(),
       remaining: ethers.BigNumber.from(1000).sub(minted).toString(),
+      publicMintIsLive: parseInt(curBlock.toString()) > parseInt(publicStartBlock.toString()),
       publicStartBlock: publicStartBlock.toString(),
       curBlock: curBlock.toString()
     }
@@ -124,7 +125,7 @@ export default function Home(){
       <ConnectWallet addressSetCallback={addressSetCallback}/>
       
     <h1 className="century">  Animal Coloring Book </h1>
-    <p className="century"> This is a Generative Transfer Art project, building off of <a href="https://opensea.io/collection/wgtap1-og">GTAP1</a>. When you mint an animal, it will be randomly assigned one of six possible types. To begin, the NFT image will be blank. The first four times the NFT is transferred, a color is filled in based on the recipient's address. On the fourth transfer, the Animal's mood is revealed - the coloring and animation of its eyes. The 10x10 SVG art and animation are generated and stored entirely on-chain.</p>
+    <p className="century"> This is a Generative Transfer Art project, building off of <a href="https://opensea.io/collection/wgtap1-og">GTAP1</a>. When you mint an animal, it will be randomly assigned one of six possible types. To begin, the NFT image will be blank. The first four times the NFT is transferred, a color is filled in based on the recipient's address. On the fourth transfer, the Animal's mood is revealed - the coloring and animation of its eyes. The 10x10 SVG art and animation are generated and stored entirely on-chain. See them on <a href="https://opensea.io/collection/animal-coloring-book">OpenSea</a> (<a href="https://opensea.io/collection/animal-coloring-book?search[stringTraits][0][name]=Coloring&search[stringTraits][0][values][0]=4%2F4">filter</a> for fully colored). </p>
     <SequentialAnimalPreview />
     <MintingSection info={projectState} />
     <br/>
@@ -135,26 +136,24 @@ export default function Home(){
     {projectState  == null ? ''
     : 
     <div>
-      { isEarlyMintEligable ? 
-      <div>
-      
-      <div>
-        
-        <div>
-        { parseInt(holderMintCount) < 2 ? <p className="century blue"> You are eligible for early minting. You can mint 2 Animal Coloring Books and additional 1 for free if you own a GTAP1 original.</p> : 
-      <p className="century blue"> Yay! You've claimed your two early mints. </p>
-        }
-          <div id='mint-box-wrapper'>
-            <MintAnimal account={account} merkleProof={merkleProof} contract={web3Contract} mintCallBack={getProjectState}/>
-            <MintAnimalAndEraser account={account} merkleProof={merkleProof} contract={web3Contract} mintCallBack={getProjectState}/>
-            <br/>
-          </div>
-        </div>
-      </div>
-      </div>
+      { projectState.publicMintIsLive ? 
+      <MintWrapper account={account} contract={web3Contract} mintCallBack={getProjectState}/>
       :
-    <EligabilityExplainer info={projectState} />
-    }
+      <div>
+        { isEarlyMintEligable ? 
+        <div>
+            <div>
+              { parseInt(holderMintCount) < 2 ? <p className="century blue"> You are eligible for early minting. You can mint 2 Animal Coloring Books and additional 1 for free if you own a GTAP1 original.</p> : 
+                <p className="century blue"> Yay! You've claimed your two early mints. </p>
+              }
+                <EarlyMintWrapper account={account} merkleProof={merkleProof} contract={web3Contract} mintCallBack={getProjectState}/>
+            </div>
+        </div>
+        :
+        <EligabilityExplainer info={projectState} />
+        }
+      </div>
+      }
     </div>
     }
     <br/>
@@ -167,6 +166,26 @@ export default function Home(){
     <div id='footer'></div>
    </div>
       
+  )
+}
+
+function EarlyMintWrapper({account, merkleProof, contract, mintCallBack}){
+  return(
+    <div id='mint-box-wrapper'>
+          <EarlyMintAnimal account={account} merkleProof={merkleProof} contract={contract} mintCallBack={mintCallBack}/>
+          <EarlyMintAnimalAndEraser account={account} merkleProof={merkleProof} contract={contract} mintCallBack={mintCallBack}/>
+          <br/>
+    </div>
+  )
+}
+
+function MintWrapper({account, contract, mintCallBack}){
+  return(
+    <div id='mint-box-wrapper'>
+          <MintAnimal account={account} contract={contract} mintCallBack={mintCallBack}/>
+          <MintAnimalAndEraser account={account} contract={contract} mintCallBack={mintCallBack}/>
+          <br/>
+    </div>
   )
 }
 
@@ -237,7 +256,7 @@ function GTAP1OG({account, contract, mintCallBack}){
         <a target="_blank" href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_ANIMAL_COLORING_BOOK + "/" +  coloringBookID}> View Animal Coloring Book On OpenSea </a> </p>
         {
           eraserID == null ? "" :
-          <p >Successfully minted Eraser #{coloringBookID} - 
+          <p >Successfully minted Eraser #{eraserID} - 
           <a target="_blank" href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_ANIMAL_COLORING_BOOK_ERASER + "/" +  eraserID}> View Eraser On OpenSea </a></p>
         }
       </div>
@@ -247,7 +266,7 @@ function GTAP1OG({account, contract, mintCallBack}){
   )
 }
 
-function MintAnimal({account, merkleProof, contract, mintCallBack}){
+function EarlyMintAnimal({account, merkleProof, contract, mintCallBack}){
   const [transactionHash, setTransactionHash] = useState("")
   const [coloringBookID, setColoringBookId] = useState(null)
 
@@ -304,7 +323,7 @@ function MintAnimal({account, merkleProof, contract, mintCallBack}){
   )
 }
 
-function MintAnimalAndEraser({account, merkleProof, contract, mintCallBack}){
+function EarlyMintAnimalAndEraser({account, merkleProof, contract, mintCallBack}){
   const [transactionHash, setTransactionHash] = useState("")
   const [coloringBookID, setColoringBookId] = useState(null)
   const [eraserID, setEraserID] = useState(null)
@@ -364,7 +383,134 @@ function MintAnimalAndEraser({account, merkleProof, contract, mintCallBack}){
         <a target="_blank" href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_ANIMAL_COLORING_BOOK + "/" +  coloringBookID}> View Animal Coloring Book On OpenSea </a> </p>
         {
           eraserID == null ? "" :
-          <p >Successfully minted Eraser #{coloringBookID} - 
+          <p >Successfully minted Eraser #{eraserID} - 
+          <a target="_blank" href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_ANIMAL_COLORING_BOOK_ERASER + "/" +  eraserID}> View Eraser On OpenSea </a></p>
+        }
+      </div>
+      
+    }
+    </fieldset>
+  )
+}
+
+function MintAnimal({account, contract, mintCallBack}){
+  const [transactionHash, setTransactionHash] = useState("")
+  const [coloringBookID, setColoringBookId] = useState(null)
+
+  const mint = async () => {
+    setTransactionHash("")
+    setColoringBookId(null)
+    var options = { value: ethers.utils.parseUnits("0.2", 18) };
+    const t = await contract.mint(account, false, options)
+    setTransactionHash(t.hash)
+    t.wait().then((receipt) => {
+        waitForEvent()
+        mintCallBack()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  const waitForEvent = async () => {
+    const filter = contract.filters.Transfer(null, account)
+      contract.once(filter, (from, to, id) => {
+        setColoringBookId(id.toString())
+      }
+    )
+  }
+
+  return (
+    <fieldset className='animal-mint-box float-left'>
+    <legend> <h3 className='century'> Animal</h3> </legend>
+    <div className='images'> 
+    <img src="mystery.svg" />
+    </div>
+    <div className='mint-button' onClick={mint}> Mint for 0.2 ETH </div>
+    {
+      transactionHash == "" ? "" :
+      <a target="_blank" href={process.env.NEXT_PUBLIC_ETHERSCAN_URL + "/tx/" +  transactionHash}> See transaction on Etherscan</a>
+    }
+
+    {
+      coloringBookID == null ? 
+      <div>
+      {
+        transactionHash == "" ? "" :
+        "Waiting for transaction to land on chain..."
+      }
+      </div>
+      :
+      <div> 
+        <p > Successfully minted Animal Coloring Book #{coloringBookID} - 
+        <a target="_blank" href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_ANIMAL_COLORING_BOOK + "/" +  coloringBookID}> View Animal Coloring Book On OpenSea </a> </p>
+      </div>
+    }
+    </fieldset>
+  )
+}
+
+function MintAnimalAndEraser({account, contract, mintCallBack}){
+  const [transactionHash, setTransactionHash] = useState("")
+  const [coloringBookID, setColoringBookId] = useState(null)
+  const [eraserID, setEraserID] = useState(null)
+
+  const mint = async () => {
+    setTransactionHash("")
+    setColoringBookId(null)
+    var options = { gasLimit: 265000, value: ethers.utils.parseUnits("0.3", 18) };
+    const t = await contract.mint(account, true, options)
+    setTransactionHash(t.hash)
+    t.wait().then((receipt) => {
+        waitForEvent()
+        mintCallBack()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  const waitForEvent = async () => {
+    const filter = contract.filters.Transfer(null, account)
+      contract.once(filter, (from, to, id) => {
+        setColoringBookId(id.toString())
+      }
+    )
+    const eraserFilter = animalColoringBookEraser.filters.Transfer(null, account)
+      contract.once(eraserFilter, (from, to, id) => {
+        setEraserID(id.toString())
+      }
+    )
+  }
+
+  return (
+    <fieldset className='animal-mint-box float-left'>
+    <legend> <h3 className='century'> Animal + Eraser</h3> </legend>
+    <div className='images'> 
+    <img className='float-left' src="mystery.svg" />
+    <img className='float-left' src="eraser.svg" />
+    </div>
+    <div className='mint-button' onClick={mint}> Mint for 0.3 ETH </div>
+    {
+      transactionHash == "" ? "" :
+      <a target="_blank" href={process.env.NEXT_PUBLIC_ETHERSCAN_URL + "/tx/" +  transactionHash}> See transaction on Etherscan</a>
+    }
+
+    {
+      coloringBookID == null ? 
+      <div>
+      {
+        transactionHash == "" ? "" :
+        "Waiting for transaction to land on chain..."
+      }
+      </div>
+      :
+      <div> 
+        <p > Successfully minted Animal Coloring Book #{coloringBookID} - 
+        <a target="_blank" href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_ANIMAL_COLORING_BOOK + "/" +  coloringBookID}> View Animal Coloring Book On OpenSea </a> </p>
+        {
+          eraserID == null ? "" :
+          <p >Successfully minted Eraser #{eraserID} - 
           <a target="_blank" href={process.env.NEXT_PUBLIC_OPENSEA_URL + "/assets/" +  process.env.NEXT_PUBLIC_ANIMAL_COLORING_BOOK_ERASER + "/" +  eraserID}> View Eraser On OpenSea </a></p>
         }
       </div>

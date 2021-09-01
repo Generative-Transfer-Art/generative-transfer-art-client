@@ -11,7 +11,7 @@ body {
 
 @font-face {
   font-family: "Century";
-  src: url("/fonts/CenturySchl-Roma.ttf");
+  src: url("/fonts/CenturySchL-Roma.ttf");
   font-style: normal;
   font-display: swap;
 }
@@ -111,6 +111,10 @@ body {
    color: blue;
    cursor: pointer;
    margin-left: 5px;
+ }
+
+ a{
+   color: blue
  }
 
  .addr-input{
