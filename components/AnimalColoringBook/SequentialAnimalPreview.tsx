@@ -6,7 +6,7 @@ import {addressH} from '../../lib/AnimalColoringBook/addressHSL';
 
 export default function SequentialAnimalPreview() {
     const [animalType, setAnimalType] = useState(1);
-    const [addr1, setAddr1] = useState("0xE592427A0AEce92De3Edee1F18E0157C05861564")
+    const [addr1, setAddr1] = useState("0x3E9bAE8AF3699730307f3096D4DF547e58Bd6e6F")
     const [addr2, setAddr2] = useState("0xc0A874CB3042E8f557819124c665ab6F34174Fca")
     const [addr3, setAddr3] = useState("0x80AEA4EEed34806a038841656C2EDe5F0dC45e95")
     const [addr4, setAddr4] = useState("0x491fd53e5E0D8b4A5F28d008856060Cda5380aaf")
