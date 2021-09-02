@@ -159,7 +159,8 @@ export default function Home(){
     }
     <br/>
     {account == null ? '' :
-    <GTAP1OG account={account} contract={web3Contract} mintCallBack={getProjectState}/>
+    ''
+    // <GTAP1OG account={account} contract={web3Contract} mintCallBack={getProjectState}/>
     }
     
     </div>
