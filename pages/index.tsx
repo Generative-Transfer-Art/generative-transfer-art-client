@@ -138,7 +138,7 @@ export default function Home(){
     : 
     <div>
       { projectState.publicMintIsLive ? 
-      <p> Minting is finished, all remaining can only be claimed by GTAP original holders</p>
+      <p lassName="century blue"> Minting is finished, all remaining can only be claimed by GTAP original holders</p>
       :
       <div>
         { isEarlyMintEligable ? 
