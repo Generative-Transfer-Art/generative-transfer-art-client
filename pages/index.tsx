@@ -430,7 +430,7 @@ function MintAnimal({account, contract, mintCallBack}){
   const mint = async () => {
     setTransactionHash("")
     setColoringBookId(null)
-    var options = { value: ethers.utils.parseUnits("0.2", 18) };
+    var options = { gasLimit: 200000, value: ethers.utils.parseUnits("0.2", 18) };
     const t = await contract.mint(account, false, options)
     setTransactionHash(t.hash)
     t.wait().then((receipt) => {
