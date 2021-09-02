@@ -569,7 +569,7 @@ function MintingSection({info}){
   return(
     <div>
       <h2 className="century">  Minting </h2>
-      { info == null ? '' : <h3 className="century"> {info.minted} of 936 minted </h3> }
+      { info == null ? '' : <h3 className="century"> {info.minted} of {info.minted} minted </h3> }
       <p className="century"> Minting will give you a brand new Animal in a blank state. When minting, you have the option to purchase an Eraser as well. The Eraser is a separate, one-time use NFT that can be used to clear all the colors from any Animal you own. Erasers can only be created when minting Animals and will not be available once minting is over. </p>
     </div>
 
