@@ -138,7 +138,7 @@ export default function Home(){
     : 
     <div>
       { projectState.publicMintIsLive ? 
-      <MintWrapper account={account} contract={web3Contract} mintCallBack={getProjectState}/>
+      <p> Minting is finished, all remaining can only be claimed by GTAP original holders</p>
       :
       <div>
         { isEarlyMintEligable ? 
