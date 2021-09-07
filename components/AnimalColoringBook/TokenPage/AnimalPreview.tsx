@@ -42,8 +42,17 @@ function PreviewWrapper({animalType, history, length}){
                 setHistory3([address, addr2, addr3])
                 if(addr4 != null){
                     setHistory4([address, addr2, addr3, addr4])
+                } else {
+                    setHistory4([address, addr2, addr3])
                 }
+            } else {
+                setHistory3([address, addr2])
+                setHistory4([address, addr2])
             }
+        } else {
+            setHistory2([address])
+            setHistory3([address])
+            setHistory4([address])
         }
     }
 
@@ -54,7 +63,12 @@ function PreviewWrapper({animalType, history, length}){
             setHistory3([addr1, address, addr3])
             if(addr4 != null){
                 setHistory4([addr1, address, addr3, addr4])
+            } else {
+                setHistory4([addr1, address, addr3])
             }
+        } else {
+            setHistory3([addr1, address])
+            setHistory4([addr1, address])
         }
         
     }
@@ -63,7 +77,9 @@ function PreviewWrapper({animalType, history, length}){
         setAddr3(address) 
         setHistory3([addr1, addr2, address])
         if(addr4 != null){
-            setHistory4([addr1, address, addr3, addr4])
+            setHistory4([addr1, addr2, address, addr4])
+        } else {
+            setHistory4([addr1, addr2, address])
         }
     }
 
