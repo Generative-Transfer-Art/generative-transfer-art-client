@@ -169,7 +169,6 @@ body {
 
  #preview-explainer{
    width: 100%;
-  display: flex;
  }
 
  h3{
@@ -254,4 +253,32 @@ body {
  .animal-item{
   margin: 20px;
   display: inline-block;
+ }
+
+ #animal-detail-info-wrapper{
+  width: 100%;
+  margin-top: 40px;
+  height: 300px;
+  margin-bottom: 40px;
+ }
+
+ #animal-detail-info-wrapper>h2{
+  margin-top: 0px;
+ }
+
+ #animal-coloring-book-image{
+   float: left;
+   width: 300px;
+   height: 300px;
+   background-color: gray;
+   /* border: 1px solid black; */
+   margin-right: 20px;
+ }
+
+ #animal-detail-info-wrapper>fieldset{
+   border-radius: 8px;
+ }
+
+ #transfer-history>p{
+   margin: 0px;
  }
