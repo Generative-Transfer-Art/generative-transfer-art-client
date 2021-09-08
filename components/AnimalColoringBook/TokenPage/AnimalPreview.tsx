@@ -23,9 +23,9 @@ function PreviewWrapper({contract, nftInfo, callback}){
     const [addr2, setAddr2] = useState(nftInfo.transferHistory.length > 1 ? nftInfo.transferHistory[1] : null)
     const [addr3, setAddr3] = useState(nftInfo.transferHistory.length > 2 ? nftInfo.transferHistory[2] : null)
     const [addr4, setAddr4] = useState(nftInfo.transferHistory.length > 3 ? nftInfo.transferHistory[3] : null)
-    const [history1, setHistory1] = useState(nftInfo.transferHistory)
-    const [history2, setHistory2] = useState(nftInfo.transferHistory)
-    const [history3, setHistory3] = useState(nftInfo.transferHistory)
+    const [history1, setHistory1] = useState(nftInfo.transferHistory.slice(0,1))
+    const [history2, setHistory2] = useState(nftInfo.transferHistory.slice(0,2))
+    const [history3, setHistory3] = useState(nftInfo.transferHistory.slice(0,3))
     const [history4, setHistory4] = useState(nftInfo.transferHistory)
 
     const updateAddr1 = (address) => {
