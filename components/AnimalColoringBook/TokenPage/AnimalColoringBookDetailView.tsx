@@ -74,7 +74,8 @@ export default function AnimalColoringBookDetailView({id}){
             </div>
              <ConnectWallet addressSetCallback={addressSetCallback}/>
             {nftInfo == null ? '' : <NFTInfo info={nftInfo} />}
-            {nftInfo == null ? '' : <SequentialAnimalPreview type={nftInfo.animalType} history={nftInfo.transferHistory} />}
+            {nftInfo == null ? '' : <SequentialAnimalPreview contract={web3Contract} nftInfo={nftInfo} callback={getInfo}/>}
+            <div id='footer'></div>
         </div>
     )
 }

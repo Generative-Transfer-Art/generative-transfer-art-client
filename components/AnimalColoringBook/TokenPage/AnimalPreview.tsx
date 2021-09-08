@@ -3,12 +3,7 @@ import { getSVG, getAnimalName, SmallAddressColorSquare } from '../AnimalImage'
 import svgToMiniDataURI from 'mini-svg-data-uri';
 import { ethers } from "ethers";
 
-export default function SequentialAnimalPreview({type, history}) {
-    const [animalType, setAnimalType] = useState(type);
-    const [addr1, setAddr1] = useState("0x3E9bAE8AF3699730307f3096D4DF547e58Bd6e6F")
-    const [addr2, setAddr2] = useState("0xc0A874CB3042E8f557819124c665ab6F34174Fca")
-    const [addr3, setAddr3] = useState("0x80AEA4EEed34806a038841656C2EDe5F0dC45e95")
-    const [addr4, setAddr4] = useState("0x491fd53e5E0D8b4A5F28d008856060Cda5380aaf")
+export default function SequentialAnimalPreview({contract, nftInfo, callback}) {
 
 
     return(
@@ -17,21 +12,21 @@ export default function SequentialAnimalPreview({type, history}) {
                 <h2 className='century'> Preview coloring</h2>
                 <p> See how transferring to different addresses will color your image. Image is colored left to right: background, head, nose and mouth, and eyes. Transfers must be done in left to right order to match image shown below.</p>
             </div>
-            <PreviewWrapper animalType={animalType} history={history} length={history.length} />
+            <PreviewWrapper contract={contract} nftInfo={nftInfo} callback={callback} />
             
         </div>
     )
 }
 
-function PreviewWrapper({animalType, history, length}){
-    const [addr1, setAddr1] = useState(length > 0 ? history[0] : null)
-    const [addr2, setAddr2] = useState(length > 1 ? history[1] : null)
-    const [addr3, setAddr3] = useState(length > 2 ? history[2] : null)
-    const [addr4, setAddr4] = useState(length > 3 ? history[3] : null)
-    const [history1, setHistory1] = useState(history)
-    const [history2, setHistory2] = useState(history)
-    const [history3, setHistory3] = useState(history)
-    const [history4, setHistory4] = useState(history)
+function PreviewWrapper({contract, nftInfo, callback}){
+    const [addr1, setAddr1] = useState(nftInfo.transferHistory.length > 0 ? nftInfo.transferHistory[0] : null)
+    const [addr2, setAddr2] = useState(nftInfo.transferHistory.length > 1 ? nftInfo.transferHistory[1] : null)
+    const [addr3, setAddr3] = useState(nftInfo.transferHistory.length > 2 ? nftInfo.transferHistory[2] : null)
+    const [addr4, setAddr4] = useState(nftInfo.transferHistory.length > 3 ? nftInfo.transferHistory[3] : null)
+    const [history1, setHistory1] = useState(nftInfo.transferHistory)
+    const [history2, setHistory2] = useState(nftInfo.transferHistory)
+    const [history3, setHistory3] = useState(nftInfo.transferHistory)
+    const [history4, setHistory4] = useState(nftInfo.transferHistory)
 
     const updateAddr1 = (address) => {
         setAddr1(address) 
@@ -92,40 +87,54 @@ function PreviewWrapper({animalType, history, length}){
     return(
         <div>
             <AnimalPreviewItem 
-            disabled={length > 0}
-            animalType={animalType}
+            contract={contract}
+            disabled={nftInfo.transferHistory.length > 0}
+            nftInfo={nftInfo}
             history={history1}
             address={addr1}
             addressChangeHandler={updateAddr1}
+            isNextTransfer={nftInfo.transferHistory.length == 0}
+            callback={callback}
             />
             <AnimalPreviewItem 
-            disabled={length > 1 || history2.length < 1}
-            animalType={animalType}
+            contract={contract}
+            disabled={nftInfo.transferHistory.length > 1 || history2.length < 1}
+            nftInfo={nftInfo}
             history={history2}
             address={addr2}
             addressChangeHandler={updateAddr2}
+            isNextTransfer={nftInfo.transferHistory.length == 1}
+            callback={callback}
             />
             <AnimalPreviewItem 
-            disabled={length > 2 || history2.length < 2}
-            animalType={animalType}
+            contract={contract}
+            disabled={nftInfo.transferHistory.length > 2 || history2.length < 2}
+            nftInfo={nftInfo}
             history={history3}
             address={addr3}
             addressChangeHandler={updateAddr3}
+            isNextTransfer={nftInfo.transferHistory.length == 2}
+            callback={callback}
             />
             <AnimalPreviewItem 
-            disabled={length > 3 || history3.length < 3}
-            animalType={animalType}
+            contract={contract}
+            disabled={nftInfo.transferHistory.length > 3 || history3.length < 3}
+            nftInfo={nftInfo}
             history={history4}
             address={addr4}
             addressChangeHandler={updateAddr4}
+            isNextTransfer={nftInfo.transferHistory.length == 3}
+            callback={callback}
             />
         </div>
     )
 }
 
-function AnimalPreviewItem({disabled, animalType, history, address, addressChangeHandler}) {
+function AnimalPreviewItem({contract, disabled, nftInfo, history, address, addressChangeHandler, isNextTransfer, callback}) {
     const [localAddress, setLocalAddress] = useState(address)
     const [error, setError] = useState(false)
+    const [transactionHash, setTransactionHash] = useState("")
+    const [landed, setLanded] = useState(false)
 
     const handleChange = (event) => {
         setError(false)
@@ -138,17 +147,48 @@ function AnimalPreviewItem({disabled, animalType, history, address, addressChang
         addressChangeHandler(address)
     }
 
+    const transfer = async () => {
+        setTransactionHash("")
+        var options = { gasLimit: 200000, value: ethers.utils.parseUnits("0.2", 18) };
+        const t = await contract.transferFrom(nftInfo.owner, address, nftInfo.id, {gasLimit: 80000})
+        setTransactionHash(t.hash)
+        t.wait().then((receipt) => {
+            waitForEvent()
+
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+    
+    const waitForEvent = async () => {
+        const filter = contract.filters.Transfer(null, address)
+        contract.once(filter, (from, to, id) => {
+            callback()
+            setLanded(true)
+        })
+    }
+    
+
 
     return(
         <div className='sequential-review-item'>   
             <div className='sequential-review-vertical-items'>
                
-                <img className='image-preview' src={svgToMiniDataURI(getSVG(animalType, history))} /> 
+                <img className='image-preview' src={svgToMiniDataURI(getSVG(nftInfo.animalType, history))} /> 
                 <div className='addr-input'> 
                     {address==null ? '' : <SmallAddressColorSquare address={address} /> }
                     <input className='float-left short-address-input' disabled={disabled} placeholder={'Enter address to see color'} value={localAddress} onChange={handleChange} /> 
                 </div>
                 {error ? <p className='error'> invalid address </p>: <br/> }
+                {address==null || !isNextTransfer || contract == null ||  transactionHash != "" ? '' : <button onClick={transfer} className='btn'> Transfer</button> }
+                {
+                    transactionHash == "" ? "" :
+                    <div>
+                        <a target="_blank" href={process.env.NEXT_PUBLIC_ETHERSCAN_URL + "/tx/" +  transactionHash}> Etherscan</a>
+                        {landed ? '' : <p>Waiting for tx...</p>}
+                    </div>
+                }
             </div>
         </div>
 )
