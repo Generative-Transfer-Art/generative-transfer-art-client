@@ -33,6 +33,7 @@ export default function AnimalColoringBookDetailView({id}){
     const [nftInfo, setNftInfo] = useState(null)
     const [web3Contract, setWeb3Contract] = useState(null)
     const [account, setAccount] = useState(null)
+    const [isOwner, setIsOwner] = useState(false)
 
     const getInfo = async () => {
         if (id == undefined) {
@@ -57,6 +58,7 @@ export default function AnimalColoringBookDetailView({id}){
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         setWeb3Contract(web3AnimalColoringBook(provider))
         setAccount(address)
+        setIsOwner(address == nftInfo.owner)
       }
     
       const web3AnimalColoringBook = (provider) => {
@@ -74,7 +76,7 @@ export default function AnimalColoringBookDetailView({id}){
             </div>
              <ConnectWallet addressSetCallback={addressSetCallback}/>
             {nftInfo == null ? '' : <NFTInfo info={nftInfo} />}
-            {nftInfo == null ? '' : <SequentialAnimalPreview contract={web3Contract} nftInfo={nftInfo} callback={getInfo}/>}
+            {nftInfo == null || !isOwner ? '' : <SequentialAnimalPreview contract={web3Contract} nftInfo={nftInfo} callback={getInfo}/>}
             <div id='footer'></div>
         </div>
     )
