@@ -150,7 +150,7 @@ function AnimalPreviewItem({contract, disabled, nftInfo, history, address, addre
     const transfer = async () => {
         setTransactionHash("")
         var options = { gasLimit: 200000, value: ethers.utils.parseUnits("0.2", 18) };
-        const t = await contract.transferFrom(nftInfo.owner, address, nftInfo.id, {gasLimit: 80000})
+        const t = await contract.transferFrom(nftInfo.owner, address, nftInfo.id, {gasLimit: 85000})
         setTransactionHash(t.hash)
         t.wait().then((receipt) => {
             waitForEvent()
