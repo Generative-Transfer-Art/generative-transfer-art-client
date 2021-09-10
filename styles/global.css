@@ -72,9 +72,9 @@ body {
    font-weight: lighter;
  }
 
- #sequential-preview-wrapper{
+ #detail-preview-wrapper{
    width: 100%;
-   height: 350px;
+   height: 500px;
  }
 
  .image-preview{
@@ -282,4 +282,12 @@ body {
 
  #transfer-history>p{
    margin: 0px;
+ }
+
+ #eraser-fieldset{
+    background-color: #ececec;
+    border-radius: 8px;
+ }
+ .small-space{
+   margin: 5px;
  }

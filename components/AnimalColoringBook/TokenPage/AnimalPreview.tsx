@@ -7,7 +7,7 @@ export default function SequentialAnimalPreview({contract, nftInfo, callback}) {
 
 
     return(
-        <div id='sequential-preview-wrapper'>
+        <div id='detail-preview-wrapper'>
             <div id='preview-explainer'>
                 <h2 className='century'> Preview coloring</h2>
                 <p> See how transferring to different addresses will color your image. Image is colored left to right: background, head, nose and mouth, and eyes. Transfers must be done in left to right order to match image shown below. Warning! Only transfer to addresses you or someone you trust controls. </p>
