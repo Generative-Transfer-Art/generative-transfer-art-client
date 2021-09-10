@@ -72,6 +72,11 @@ body {
    font-weight: lighter;
  }
 
+ #sequential-preview-wrapper{
+  width: 100%;
+  height: 350px;
+}
+
  #detail-preview-wrapper{
    width: 100%;
    height: 500px;
