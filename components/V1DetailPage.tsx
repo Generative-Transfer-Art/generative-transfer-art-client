@@ -21,7 +21,7 @@ const wrappedTransferArtContract = new ethers.Contract(
 
 declare global {
     interface Window {
-        ethereum:any;
+        ethereum: any;
     }
 }
 
