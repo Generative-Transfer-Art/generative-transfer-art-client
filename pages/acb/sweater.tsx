@@ -117,6 +117,8 @@ const InfoForm = ({account}) => {
             setResponseError(e)
             if(e == ''){
                 setSuccess(true)
+            } else {
+                setSuccess(false)
             }
         })
         .catch((error) => {
