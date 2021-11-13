@@ -122,11 +122,6 @@ const InfoForm = ({account}) => {
         .catch((error) => {
             console.log(error)
         })
-
-    
-        
-
-
     }
 
     return(
@@ -212,8 +207,8 @@ const TokenIDEntry = ({account, setTokenId}) => {
 
 const SizePicker = ({setVariantId}) => {
     const [values, setValues] = useState([])
-    const handleChange = () => {
-
+    const handleChange = (event) => {
+        setVariantId(event.target.value)
     }
 
     useEffect(() => {
