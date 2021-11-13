@@ -1,10 +1,12 @@
-body{
+
+
+#sweater-page{
+    text-align: center;
     width: 80%;
     margin: auto;
     margin-top: 50px;
-    text-align: center;
 }
-img{
+#sweater-page>img{
     width: 200px
 }
 
@@ -12,7 +14,11 @@ img{
     float: none;
 }
 
-input{
+#info-form>div>input{
+    border: 1px solid black;
+    width: 300px;
+}
+#info-form>div>div>input{
     border: 1px solid black;
     width: 300px;
 }
