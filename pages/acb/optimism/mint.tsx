@@ -74,7 +74,7 @@ function Mint({account, mintCallBack}){
     const waitForEvent = async () => {
       const filter = contract.filters.Transfer(null, account)
         contract.once(filter, (from, to, id) => {
-        //   setColoringBookId(id.toString())
+          setColoringBookId(id.toString())
             setLanded(true)
         }
       )
@@ -92,7 +92,7 @@ function Mint({account, mintCallBack}){
                     transactionHash == "" ? "" :
                 <div>
                     <a target="_blank" href={process.env.NEXT_PUBLIC_OPTIMISM_ETHERSCAN_URL + "/tx/" +  transactionHash}> See transaction on Etherscan</a>
-                    {landed ? <p> Success ! </p> : <p>Waiting for tx...</p>}
+                    {landed ? <p> Success ! See it  <a href={`https://generative-transfer-art.vercel.app/acb/optimism/${coloringBookID}`}> here </a> </p> : <p>Waiting for tx...</p>}
                 </div>
                 }
       </div>
